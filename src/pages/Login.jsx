@@ -10,21 +10,18 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    try {
-      const res = await API.post("/auth/login", form);
+  const handleLogin = async (e) => {
+  e?.preventDefault(); // prevents default form submit
 
-      // ✅ store token
-      localStorage.setItem("token", res.data);
-
-      // ✅ redirect to dashboard
-      navigate("/");
-
-    } catch (err) {
-      console.log(err);
-      alert("Invalid username or password");
-    }
-  };
+  try {
+    const res = await API.post("/auth/login", form);
+    localStorage.setItem("token", res.data);
+    navigate("/");
+  } catch (err) {
+    console.log(err);
+    alert("Invalid username or password");
+  }
+};
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -53,11 +50,12 @@ function Login() {
         />
 
         <button
-          onClick={handleLogin}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-        >
-          Login
-        </button>
+  type="button"
+  onClick={handleLogin}
+  className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+>
+  Login
+</button>
 
       </div>
     </div>
